@@ -18,7 +18,16 @@ namespace Recommendations.Events
             });
 
             Thread.Sleep(5000);
-            subscriber.Publish("METRIC_UPDATED", "Hello there matey");
+            var metricValue = new MetricValue() { Value = 10, Date = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTime(DateTime.UtcNow) };
+            var metric = new Metric()
+            {
+                Name = "Weight",
+                UnitValue = "Kilos",
+                LessIsBetter = true
+            };
+            metric.Value.Add(metricValue);
+
+            subscriber.Publish("METRIC_UPDATED", NReJSON.NReJSONSerializer.SerializerProxy.Serialize<Metric>(metric));
         }
     }
 }

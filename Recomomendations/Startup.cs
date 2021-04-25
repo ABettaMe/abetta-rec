@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Recommendations.Connections;
+using NReJSON;
 
 namespace Recommendations
 {
@@ -26,6 +29,13 @@ namespace Recommendations
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            RedisConnection redisConfiguration = ReadRedisConfiguration();
+
+            RedisManager.InitializeManager(redisConfiguration);
+
+            //var database = RedisManager.GetConnection();
+            //var jsonWrite = database.JsonSet("Experiments:antonis", "{\"test\": 5}");
+            //var jsonExample2 = database.JsonGet("Experiments:antonis");
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -43,7 +53,7 @@ namespace Recommendations
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Recommendations v1"));
             }
-
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -54,6 +64,20 @@ namespace Recommendations
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private RedisConnection ReadRedisConfiguration()
+        {
+            var hostname = Configuration.GetValue(typeof(string), "Redis:Hostname") as string;
+            var port = Configuration.GetValue(typeof(string), "Redis:Port") as string;
+            var password = Configuration.GetValue(typeof(string), "Redis:Password") as string;
+            var redisConfiguration = new RedisConnection()
+            {
+                Hostname = hostname,
+                Port = port,
+                Password = password
+            };
+            return redisConfiguration;
         }
     }
 }

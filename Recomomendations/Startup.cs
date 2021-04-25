@@ -14,9 +14,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Recommendations.Connections;
 using NReJSON;
+using Recommendations.Events;
+using StackExchange.Redis;
 
 namespace Recommendations
 {
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -30,12 +33,12 @@ namespace Recommendations
         public void ConfigureServices(IServiceCollection services)
         {
             RedisConnection redisConfiguration = ReadRedisConfiguration();
-
             RedisManager.InitializeManager(redisConfiguration);
 
-            //var database = RedisManager.GetConnection();
-            //var jsonWrite = database.JsonSet("Experiments:antonis", "{\"test\": 5}");
-            //var jsonExample2 = database.JsonGet("Experiments:antonis");
+            ExampleForGetSet();
+
+            var subscriber = RedisManager.GetSubscriber();
+            MetricUpdateSubscriber.Register(subscriber);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -64,6 +67,19 @@ namespace Recommendations
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void ExampleForGetSet()
+        {
+            var experiment = new Experiment()
+            {
+                Id = new Guid().ToString(),
+                Name = "A new experiment for me"
+            };
+
+            var database = RedisManager.GetConnection();
+            var jsonWrite = database.JsonSet("Experiments:antonis", experiment);
+            var jsonExample2 = database.JsonGet<Experiment>("Experiments:antonis");
         }
 
         private RedisConnection ReadRedisConfiguration()

@@ -20,6 +20,6 @@
     <Folder Include="Contracts\" />
     <Folder Include="Analysis\" />
     <Folder Include="Connections\" />
-    <Folder Include="Controllers\" />
+    <Folder Include="Events\" />
   </ItemGroup>
 </Project>

@@ -40,5 +40,19 @@ namespace Recommendations.Connections
             var connection = muxer.GetSubscriber();
             return connection;
         }
+
+        public static OperationResult JsonSet<T>(string key, T resource)
+        {
+            var connection = muxer.GetDatabase();
+            var jsonWrite = connection.JsonSet(key, resource);
+            return jsonWrite;
+        }
+
+        public static T JsonGet<T>(string key)
+        {
+            var connection = muxer.GetDatabase();
+            var resource = connection.JsonGet<T>(key);
+            return resource;
+        }
     }
 }

@@ -23,19 +23,20 @@ public static partial class ExperimentReflection {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
           "ChBFeHBlcmltZW50LnByb3RvGh9nb29nbGUvcHJvdG9idWYvdGltZXN0YW1w",
-          "LnByb3RvGgxNZXRyaWMucHJvdG8i3gIKCkV4cGVyaW1lbnQSCgoCaWQYASAB",
-          "KAkSDAoEbmFtZRgCIAEoCRIbChNkZXNjcmlwdGlvbl9jb250cm9sGAMgASgJ",
-          "EiAKD21ldHJpY3NfY29udHJvbBgEIAMoCzIHLk1ldHJpYxIiChFtZXRyaWNz",
-          "X3RyZWF0bWVudBgFIAMoCzIHLk1ldHJpYxIrCgdjcmVhdGVkGAYgASgLMhou",
-          "Z29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBItCgljb21wbGV0ZWQYByABKAsy",
-          "Gi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEiIKBnN0YXR1cxgIIAEoDjIS",
-          "LkV4cGVyaW1lbnQuU3RhdHVzEh0KFWRlc2NyaXB0aW9uX3RyZWF0bWVudBgJ",
-          "IAEoCSI0CgZTdGF0dXMSDwoLTk9UX1NUQVJURUQQABIKCgZBQ1RJVkUQARIN",
-          "CglDT01QTEVURUQQAmIGcHJvdG8z"));
+          "LnByb3RvGgxNZXRyaWMucHJvdG8aFFJlY29tbWVuZGF0aW9uLnByb3RvIogD",
+          "CgpFeHBlcmltZW50EgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSGwoTZGVz",
+          "Y3JpcHRpb25fY29udHJvbBgDIAEoCRIgCg9tZXRyaWNzX2NvbnRyb2wYBCAD",
+          "KAsyBy5NZXRyaWMSIgoRbWV0cmljc190cmVhdG1lbnQYBSADKAsyBy5NZXRy",
+          "aWMSKwoHY3JlYXRlZBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3Rh",
+          "bXASLQoJY29tcGxldGVkGAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVz",
+          "dGFtcBIiCgZzdGF0dXMYCCABKA4yEi5FeHBlcmltZW50LlN0YXR1cxIdChVk",
+          "ZXNjcmlwdGlvbl90cmVhdG1lbnQYCSABKAkSKAoPcmVjb21tZW5kYXRpb25z",
+          "GAogAygLMg8uUmVjb21tZW5kYXRpb24iNAoGU3RhdHVzEg8KC05PVF9TVEFS",
+          "VEVEEAASCgoGQUNUSVZFEAESDQoJQ09NUExFVEVEEAJiBnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-        new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::MetricReflection.Descriptor, },
+        new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::MetricReflection.Descriptor, global::RecommendationReflection.Descriptor, },
         new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::Experiment), global::Experiment.Parser, new[]{ "Id", "Name", "DescriptionControl", "MetricsControl", "MetricsTreatment", "Created", "Completed", "Status", "DescriptionTreatment" }, null, new[]{ typeof(global::Experiment.Types.Status) }, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::Experiment), global::Experiment.Parser, new[]{ "Id", "Name", "DescriptionControl", "MetricsControl", "MetricsTreatment", "Created", "Completed", "Status", "DescriptionTreatment", "Recommendations" }, null, new[]{ typeof(global::Experiment.Types.Status) }, null, null)
         }));
   }
   #endregion
@@ -80,6 +81,7 @@ public sealed partial class Experiment : pb::IMessage<Experiment>
     completed_ = other.completed_ != null ? other.completed_.Clone() : null;
     status_ = other.status_;
     descriptionTreatment_ = other.descriptionTreatment_;
+    recommendations_ = other.recommendations_.Clone();
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -185,6 +187,16 @@ public sealed partial class Experiment : pb::IMessage<Experiment>
     }
   }
 
+  /// <summary>Field number for the "recommendations" field.</summary>
+  public const int RecommendationsFieldNumber = 10;
+  private static readonly pb::FieldCodec<global::Recommendation> _repeated_recommendations_codec
+      = pb::FieldCodec.ForMessage(82, global::Recommendation.Parser);
+  private readonly pbc::RepeatedField<global::Recommendation> recommendations_ = new pbc::RepeatedField<global::Recommendation>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pbc::RepeatedField<global::Recommendation> Recommendations {
+    get { return recommendations_; }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override bool Equals(object other) {
     return Equals(other as Experiment);
@@ -207,6 +219,7 @@ public sealed partial class Experiment : pb::IMessage<Experiment>
     if (!object.Equals(Completed, other.Completed)) return false;
     if (Status != other.Status) return false;
     if (DescriptionTreatment != other.DescriptionTreatment) return false;
+    if(!recommendations_.Equals(other.recommendations_)) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -222,6 +235,7 @@ public sealed partial class Experiment : pb::IMessage<Experiment>
     if (completed_ != null) hash ^= Completed.GetHashCode();
     if (Status != global::Experiment.Types.Status.NotStarted) hash ^= Status.GetHashCode();
     if (DescriptionTreatment.Length != 0) hash ^= DescriptionTreatment.GetHashCode();
+    hash ^= recommendations_.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -268,6 +282,7 @@ public sealed partial class Experiment : pb::IMessage<Experiment>
       output.WriteRawTag(74);
       output.WriteString(DescriptionTreatment);
     }
+    recommendations_.WriteTo(output, _repeated_recommendations_codec);
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -307,6 +322,7 @@ public sealed partial class Experiment : pb::IMessage<Experiment>
       output.WriteRawTag(74);
       output.WriteString(DescriptionTreatment);
     }
+    recommendations_.WriteTo(ref output, _repeated_recommendations_codec);
     if (_unknownFields != null) {
       _unknownFields.WriteTo(ref output);
     }
@@ -339,6 +355,7 @@ public sealed partial class Experiment : pb::IMessage<Experiment>
     if (DescriptionTreatment.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(DescriptionTreatment);
     }
+    size += recommendations_.CalculateSize(_repeated_recommendations_codec);
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
     }
@@ -379,6 +396,7 @@ public sealed partial class Experiment : pb::IMessage<Experiment>
     if (other.DescriptionTreatment.Length != 0) {
       DescriptionTreatment = other.DescriptionTreatment;
     }
+    recommendations_.Add(other.recommendations_);
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
 
@@ -435,6 +453,10 @@ public sealed partial class Experiment : pb::IMessage<Experiment>
           DescriptionTreatment = input.ReadString();
           break;
         }
+        case 82: {
+          recommendations_.AddEntriesFrom(input, _repeated_recommendations_codec);
+          break;
+        }
       }
     }
   #endif
@@ -489,6 +511,10 @@ public sealed partial class Experiment : pb::IMessage<Experiment>
         }
         case 74: {
           DescriptionTreatment = input.ReadString();
+          break;
+        }
+        case 82: {
+          recommendations_.AddEntriesFrom(ref input, _repeated_recommendations_codec);
           break;
         }
       }

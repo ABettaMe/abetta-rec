@@ -35,10 +35,7 @@ namespace Recommendations
             RedisConnection redisConfiguration = ReadRedisConfiguration();
             RedisManager.InitializeManager(redisConfiguration);
 
-            ExampleForGetSet();
-
-            var subscriber = RedisManager.GetSubscriber();
-            MetricUpdateSubscriber.Register(subscriber);
+            MetricUpdateSubscriber.Register();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -67,19 +64,6 @@ namespace Recommendations
             {
                 endpoints.MapControllers();
             });
-        }
-
-        private void ExampleForGetSet()
-        {
-            var experiment = new Experiment()
-            {
-                Id = new Guid().ToString(),
-                Name = "A new experiment for me"
-            };
-
-            var database = RedisManager.GetConnection();
-            var jsonWrite = database.JsonSet("Experiments:antonis", experiment);
-            var jsonExample2 = database.JsonGet<Experiment>("Experiments:antonis");
         }
 
         private RedisConnection ReadRedisConfiguration()
